@@ -1,0 +1,78 @@
+{
+    "isy": {
+        "0": {
+            "temperature": {
+                "type": 2,
+                "num": 47
+            },
+            "humidity": {
+                "type": 2,
+                "num": 23
+            },
+            "state": {
+                "type": 2,
+                "num": 49
+            },
+            "settemp": {
+                "type": 2,
+                "num": 55
+            },
+            "setlow": {
+                "type": 2,
+                "num": 58
+            },
+            "sethigh": {
+                "type": 2,
+                "num": 59
+            },
+            "mode": {
+                "type": 2,
+                "num": 61
+            }
+        },
+        "1": {
+            "temperature": {
+                "type": 2,
+                "num": 48
+            },
+            "humidity": {
+                "type": 2,
+                "num": 46
+            },
+            "state": {
+                "type": 2,
+                "num": 50
+            },
+            "settemp": {
+                "type": 2,
+                "num": 54
+            },
+            "setlow": {
+                "type": 2,
+                "num": 56
+            },
+            "sethigh": {
+                "type": 2,
+                "num": 57
+            },
+            "mode": {
+                "type": 2,
+                "num": 60
+            }
+        },
+	"S": {
+	    "away": {
+		"type": 2,
+		"num": 53
+	     },
+	    "rush_hour": {
+		"type": 2,
+		"num": 69
+	     }
+	},
+        "host": "isy",
+        "port": "80",
+        "user": "admin",
+        "pass": "secret"
+    }
+}

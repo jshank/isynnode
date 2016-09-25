@@ -1,0 +1,21 @@
+{
+  "name": "isynnode",
+  "version": "0.0.5",
+  "description": "Simple NEST Control script for ISY",
+  "author": "Andrey Pevnev <andrey@xkinghome.net>",
+  "scripts": {
+    "start": "node isynnode.js"
+  },
+  "main": "isynnode.js",
+  "keywords": [
+    "nest",
+    "isy" 
+  ],
+  "dependencies": {
+    "winston": "~2.2.0",
+    "firebase": "~2.4.2",
+    "express": "~4.14.0"
+  },
+  "private": true,
+  "license": "MIT"
+}

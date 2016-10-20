@@ -226,6 +226,7 @@ function nestUpdate(snapshot) {
 				"is_using_emergency_heat": data.devices.thermostats[entry].is_using_emergency_heat,
 				"hvac_mode": data.devices.thermostats[entry].hvac_mode,
 				"is_online": data.devices.thermostats[entry].is_online,
+				"software_version": data.devices.thermostats[entry].software_version,
 				"target_temperature_f": data.devices.thermostats[entry].target_temperature_f,
 				"target_temperature_c": data.devices.thermostats[entry].target_temperature_c,
 				"target_temperature_low_f": data.devices.thermostats[entry].target_temperature_low_f,
@@ -357,6 +358,12 @@ function nestUpdate(snapshot) {
 				gFirstRun == true ) {			
 				// call update here	
 				work.thermostats[i].is_online = data.devices.thermostats[entry].is_online;
+				isChange = true;
+			}	 	
+			if (work.thermostats[i].software_version != data.devices.thermostats[entry].software_version ||
+				gFirstRun == true ) {			
+				// call update here	
+				work.thermostats[i].software_version = data.devices.thermostats[entry].software_version;
 				isChange = true;
 			}	 	
 			if (work.thermostats[i].target_temperature_f != data.devices.thermostats[entry].target_temperature_f ||

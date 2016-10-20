@@ -192,7 +192,7 @@ function nestUpdate(snapshot) {
 	var data = snapshot.val();
 	var i = 0;
 	var hvacStates = ["off", "heating", "cooling"];
-	var hvacModes = ["off", "heat", "cool", "heat-cool"];
+	var hvacModes = ["off", "heat", "cool", "heat-cool", "eco"];
 	var structAway = ["home", "away", "auto-away", "unknown"];
 	var isChange = false;
 	var currentTS = new Date();
@@ -226,6 +226,8 @@ function nestUpdate(snapshot) {
 				"is_using_emergency_heat": data.devices.thermostats[entry].is_using_emergency_heat,
 				"hvac_mode": data.devices.thermostats[entry].hvac_mode,
 				"is_online": data.devices.thermostats[entry].is_online,
+				"is_locked": data.devices.thermostats[entry].is_locked,
+				"time_to_target": data.devices.thermostats[entry].time_to_target,
 				"software_version": data.devices.thermostats[entry].software_version,
 				"target_temperature_f": data.devices.thermostats[entry].target_temperature_f,
 				"target_temperature_c": data.devices.thermostats[entry].target_temperature_c,
@@ -234,6 +236,7 @@ function nestUpdate(snapshot) {
 				"target_temperature_high_f": data.devices.thermostats[entry].target_temperature_high_f,
 				"target_temperature_high_c": data.devices.thermostats[entry].target_temperature_high_c,
 				"fan_timer_active": data.devices.thermostats[entry].fan_timer_active,
+				"fan_timer_duration": data.devices.thermostats[entry].fan_timer_duration,
 				"last_connection": data.devices.thermostats[entry].last_connection,
 				"temperature_scale": data.devices.thermostats[entry].temperature_scale
 			});
@@ -360,6 +363,18 @@ function nestUpdate(snapshot) {
 				work.thermostats[i].is_online = data.devices.thermostats[entry].is_online;
 				isChange = true;
 			}	 	
+			if (work.thermostats[i].is_locked != data.devices.thermostats[entry].is_locked ||
+				gFirstRun == true ) {			
+				// call update here	
+				work.thermostats[i].is_locked = data.devices.thermostats[entry].is_locked;
+				isChange = true;
+			}	 	
+			if (work.thermostats[i].time_to_target != data.devices.thermostats[entry].time_to_target ||
+				gFirstRun == true ) {			
+				// call update here	
+				work.thermostats[i].time_to_target = data.devices.thermostats[entry].time_to_target;
+				isChange = true;
+			}	 	
 			if (work.thermostats[i].software_version != data.devices.thermostats[entry].software_version ||
 				gFirstRun == true ) {			
 				// call update here	
@@ -426,6 +441,12 @@ function nestUpdate(snapshot) {
 				work.thermostats[i].fan_timer_active = data.devices.thermostats[entry].fan_timer_active;
 				isChange = true;
 			}	 	
+			if (work.thermostats[i].fan_timer_duration != data.devices.thermostats[entry].fan_timer_duration ||
+				gFirstRun == true ) {			
+				// call update here	
+				work.thermostats[i].fan_timer_duration = data.devices.thermostats[entry].fan_timer_duration;
+				isChange = true;
+			}	 	
 			if (work.thermostats[i].last_connection != data.devices.thermostats[entry].last_connection ||
 				gFirstRun == true ) {			
 				// call update here	
@@ -469,7 +490,7 @@ function nestSetTemp(object, id, newTemp, scale, type) {
 
 function nestSetMode(object, id, newMode) {
 	var path = 'devices/thermostats/' + object.thermostat[id] + '/hvac_mode';
-	var hvacModes = ["off", "heat", "cool", "heat-cool"];
+	var hvacModes = ["off", "heat", "cool", "heat-cool", "eco"];
 
     if (!object.thermostats[id].device_id) {
   		logger.error("Wrong thermostat id: "+req.params.id);
@@ -551,7 +572,7 @@ app.get('/', function (req, res) {
 		textOut += "<p><b>http://"+host+":"+port+"/settemp/ID/tt</b> - sets thermostat's ID temperature to tt in heat or cool mode</p>";
 		textOut += "<p><b>http://"+host+":"+port+"/setlow/ID/tt</b> - sets thermostat's ID heating temperature to tt in heat-cool mode</p>";
 		textOut += "<p><b>http://"+host+":"+port+"/sethigh/ID/tt</b> - sets thermostat's ID heating temperature to tt in heat-cool mode</p>";
-		textOut += "<p><b>http://"+host+":"+port+"/setmode/ID/mm</b> - sets thermostat's ID mode to mm, choice of <b>{off, heat, cool, heat-cool}</b>, ID can be substituted with <b>all</b></p>";
+		textOut += "<p><b>http://"+host+":"+port+"/setmode/ID/mm</b> - sets thermostat's ID mode to mm, choice of <b>{off, heat, cool, heat-cool, eco}</b>, ID can be substituted with <b>all</b></p>";
 		textOut += "<p><b>http://"+host+":"+port+"/setfan/ID/ff</b> - sets thermostat's ID fan timer to ff, choice of <b>{off, on}</b></p>";
 		textOut += "<p><b>http://"+host+":"+port+"/setaway/aa</b> - sets structures's away mode to aa, choice of <b>{home, away}</b></p>";
 		textOut += "<p><b>http://"+host+":"+port+"/refresh</b> - updates all ISY variables on next event</p>";

@@ -531,6 +531,22 @@ function nestSetFan(object, id, fanMode) {
 	}
 }
 
+function nestSetFanTimer(object, id, fanTimer) {
+	var path = 'devices/thermostats/' + object.thermostat[id] + '/fan_timer_duration';
+	
+    if (!object.thermostats[id].device_id) {
+  		logger.error("Wrong thermostat id: "+req.params.id);
+	} else if (object.thermostats[id].is_using_emergency_heat) {
+		logger.error("Can't set fan mode while using emergency heat.");
+	} else if (!object.thermostats[id].is_online) {
+		logger.error("Can't set fan mode, thermostat is offline ");
+	} else if (object.away === "away") {
+		logger.error("Can't set fan mode while structure is set to Away or Auto-away.");
+	} else { // ok to set fan timer	
+		dataRef.child(path).set(fanTimer, onSetError);
+	}
+}
+
 function onSetError(error)
 {
 	if (error) {
@@ -574,6 +590,7 @@ app.get('/', function (req, res) {
 		textOut += "<p><b>http://"+host+":"+port+"/sethigh/ID/tt</b> - sets thermostat's ID heating temperature to tt in heat-cool mode</p>";
 		textOut += "<p><b>http://"+host+":"+port+"/setmode/ID/mm</b> - sets thermostat's ID mode to mm, choice of <b>{off, heat, cool, heat-cool, eco}</b>, ID can be substituted with <b>all</b></p>";
 		textOut += "<p><b>http://"+host+":"+port+"/setfan/ID/ff</b> - sets thermostat's ID fan timer to ff, choice of <b>{off, on}</b></p>";
+		textOut += "<p><b>http://"+host+":"+port+"/setfantimer/ID/ff</b> - sets thermostat's ID fan timer to ff, choice of <b>{15, 30, 45, 60, 120, 240, 480, 960}</b></p>";
 		textOut += "<p><b>http://"+host+":"+port+"/setaway/aa</b> - sets structures's away mode to aa, choice of <b>{home, away}</b></p>";
 		textOut += "<p><b>http://"+host+":"+port+"/refresh</b> - updates all ISY variables on next event</p>";
 		textOut += "<p><b>http://"+host+":"+port+"/reconfig</b> - re-reads config.json</p>";
@@ -701,6 +718,22 @@ app.get('/setfan/:id/:mode', function (req, res) {
 			default:
 				logger.error("Invalid FAN mode requested");
 				break;	
+		}
+	} else {
+		res.send("No token");
+	}				
+});
+
+app.get('/setfantimer/:id/:timer', function (req, res) {
+	var allowedTimes = [15, 30, 45, 60, 120, 240, 480, 960];
+
+	if (work.auth_token != '') {
+		res.send('ID: '+req.params.id+'Timer: '+req.params.timer);
+		var timerValue = parseInt(req.params.timer);
+		if ( allowedTimes.includes(timerValue) ) {
+			nestSetFanTimer(work, req.params.id, timerValue);
+		} else {
+			logger.error("Invalid FAN timer requested");
 		}
 	} else {
 		res.send("No token");

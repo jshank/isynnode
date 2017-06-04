@@ -1,16 +1,18 @@
 {
   "name": "isynnode",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "Simple NEST Control script for ISY",
   "author": "Andrey Pevnev <npm@xkinghome.net>",
-  "scripts": {
-    "start": "node isynnode.js"
-  },
   "main": "isynnode.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/exking/isynnode.git"
+  },
   "keywords": [
     "nest",
     "isy" 
   ],
+  "homepage": "https://github.com/exking/isynnode",
   "dependencies": {
     "winston": "~2.2.0",
     "firebase": "~2.4.2",

@@ -1,6 +1,6 @@
 {
   "name": "isynnode",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "Simple NEST Control script for ISY",
   "author": "Andrey Pevnev <npm@xkinghome.net>",
   "main": "isynnode.js",

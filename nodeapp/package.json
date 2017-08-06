@@ -4,9 +4,6 @@
   "description": "Simple NEST Control script for ISY",
   "author": "Andrey Pevnev <npm@xkinghome.net>",
   "main": "isynnode.js",
-  "scripts": {
-         "start": "node isynnode.js"
-       },
   "repository": {
     "type": "git",
     "url": "https://github.com/exking/isynnode.git"
